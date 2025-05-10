@@ -35,6 +35,15 @@ class Display:
         self.displayRunning = True
         self.displayWindow = pygame.display.set_mode((200, 584))
         self.clock = pygame.time.Clock()
+
+        self.level_maps = ["Maps/map1.tmx", "Maps/map1.tmx"] #"Maps/map2.tmx", "Maps/map3.tmx"]
+        self.level_options = [["100", "1000", "10000"], ["100", "1000", "10000"]]
+        self.level_options_points = [[0, -1, 1], [0, -1, 1]]
+        self.level_choice_text = [["Kom igen, det var tæt på!", "Helt rigtigt", "Argh, du må hellere tage dig sammen"], ["Kom igen, det var tæt på!", "Helt rigtigt", "Argh, du må hellere tage dig sammen"]]
+        self.level_completion_heights = [[300, 390, 200], [300, 390, 200]]
+        self.current_level = 0
+        self.current_score = 0
+        
         self.loadMap()
 
     def update(self):
@@ -42,9 +51,20 @@ class Display:
         pygame.display.update()
 
     def loadMap(self):
-        self.map = TiledMap("Maps/map1.tmx")
+        current_map_file = self.level_maps[self.current_level]
+        self.map = TiledMap(current_map_file)
         self.map_img = self.map.make_map()
         self.map_rect = self.map_img.get_rect()
+
+    def nextLevel(self):
+        self.current_level += 1
+        if self.current_level < len(self.level_maps):
+            self.loadMap()
+        else:
+            Tk().wm_withdraw()
+            messagebox.showinfo("Game Over", f"Du slutter med en score på {self.current_score}")
+            self.displayRunning = False
+
 
     def displayLoop(self):
         # Screen dimensions
@@ -62,11 +82,16 @@ class Display:
         disc_x = WIDTH // 2  # Center of the screen horizontally
         disc_y = 0  # Start at the top of the screen
         disc_speed = 5  # Pixels per frame
+        curve_amount = 0.05  # adjust this for how much it curves
+        curve_counter = 0    # simulate time or distance
+        
         smallfont = pygame.font.SysFont('Corbel',20) 
-        hyzer_text = smallfont.render('Hyzer' , True , (255,255,255)) 
-        flat_text = smallfont.render('Flat' , True , (255,255,255)) 
-        anhyzer_text = smallfont.render('Anhyzer' , True , (255,255,255))         
+      
         while self.displayRunning:
+            hyzer_text = smallfont.render(self.level_options[self.current_level][0] , True , (255,255,255)) 
+            flat_text = smallfont.render(self.level_options[self.current_level][1] , True , (255,255,255)) 
+            anhyzer_text = smallfont.render(self.level_options[self.current_level][2]  , True , (255,255,255)) 
+            
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.displayRunning = False
@@ -93,17 +118,36 @@ class Display:
             if disc_thrown:
                 match release_angle:
                     case ReleaseAngle.HYZER:
-                        continue
-                    case ReleaseAngle.FLAT:                                                                # Update disc position
-                        disc_y += disc_speed  # Move the disc downward
-                        completion_height = 390
+                        disc_y += disc_speed
+                        disc_x -= curve_amount * curve_counter  # curve to the left
+                        completion_height = self.level_completion_heights[self.current_level][0]
+                        curve_counter += 1
+                        choice_result_text = self.level_choice_text[self.current_level][0]
+                        choice_score = self.level_options_points[self.current_level][0]
+
+                    case ReleaseAngle.FLAT:
+                        disc_y += disc_speed
+                        completion_height = self.level_completion_heights[self.current_level][1]
+                        choice_result_text = self.level_choice_text[self.current_level][1]
+                        choice_score = self.level_options_points[self.current_level][1]
+
                     case ReleaseAngle.ANHYZER:
-                        continue
+                        disc_y += disc_speed
+                        disc_x += curve_amount * curve_counter  # curve to the right
+                        completion_height = self.level_completion_heights[self.current_level][2]
+                        curve_counter += 1
+                        choice_result_text = self.level_choice_text[self.current_level][2]
+                        choice_score = self.level_options_points[self.current_level][2]
 
                 # Check if the disc has reached the bottom
                 if disc_y - disc_radius > completion_height:
-                    Tk().wm_withdraw() #to hide the main window
-                    messagebox.showinfo('Bane 1','ACE')
+                    Tk().wm_withdraw()
+                    messagebox.showinfo(f'Bane {self.current_level + 1}', choice_result_text)
+                    self.current_score += choice_score
+                    self.nextLevel()
+                    disc_thrown = False
+                    disc_y = 0  # Reset disc position for next level
+                    disc_x = WIDTH // 2  # Center of the screen horizontally
 
                 # Draw the disc        
                 pygame.draw.circle(self.displayWindow, RED, (disc_x, disc_y), disc_radius)
@@ -117,6 +161,10 @@ class Display:
 
             pygame.draw.rect(self.displayWindow, RED,[0,584,66,40]) 
             self.displayWindow.blit(anhyzer_text, (140,554))
+
+            score_text = smallfont.render(f"Score: {self.current_score}", True, (255, 255, 255))
+            score_rect = score_text.get_rect(topright=(WIDTH - 10, 10))
+            self.displayWindow.blit(score_text, score_rect)
         
             self.update()
             self.clock.tick(60)  # Limit to 60 FPS
