@@ -31,6 +31,8 @@ class ReleaseAngle(Enum):
 
 class Display:
     def __init__(self):
+        self.root = Tk()
+        self.root.withdraw()
         pygame.init()
         self.displayRunning = True
         self.displayWindow = pygame.display.set_mode((200, 584))
@@ -92,8 +94,8 @@ class Display:
         if self.current_level < len(self.level_maps):
             self.loadMap()
         else:
-            Tk().wm_withdraw()
             messagebox.showinfo("Game Over", f"Du slutter med en score på {self.current_score}")
+            self.root.update()
             self.displayRunning = False
 
 
@@ -156,8 +158,8 @@ class Display:
 
                 # Check if the disc has reached the bottom
                 if disc_y - disc_radius > completion_height:
-                    Tk().wm_withdraw()
                     messagebox.showinfo(f'Bane {self.current_level + 1}', choice_result_text)
+                    self.root.update()
                     self.current_score += choice_score
                     self.nextLevel()
 
