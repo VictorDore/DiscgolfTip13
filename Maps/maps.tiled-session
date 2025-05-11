@@ -27,7 +27,7 @@
             "selectedLayer": 1,
             "viewCenter": {
                 "x": 241.79636450041585,
-                "y": 254.9126767256742
+                "y": 402.04348342639895
             }
         },
         "map1.tmx#basket(2)": {
@@ -62,8 +62,8 @@
             "scale": 1,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 0,
-                "y": 0
+                "x": -86,
+                "y": 336
             }
         },
         "tf_jungle_tileset.tsx": {

@@ -39,13 +39,39 @@ class Display:
         self.level_maps = ["Maps/map1.tmx", "Maps/map2.tmx", "Maps/map3.tmx", "Maps/map4.tmx"]
         self.level_start_positions = [80, 32, 80, 80]
         self.level_options = [["x", "y", "z"], ["100", "1000", "10000"], ["100", "1000", "10000"], ["100", "1000", "10000"]]
-        self.level_options_points = [[0, -1, 1], [0, 1, -1], [-1, 1, 0], [1, 0, -1]]
+        self.level_options_points = [[0, -1, 1], [0, 1, -1], [-1, 1, 0], [-1, 0, 1]]
         self.level_choice_text = [
             ["Kom igen, det var tæt på!", "Helt rigtigt", "Argh, du må hellere tage dig sammen"], 
             ["Kom igen, det var tæt på!", "Argh, du må hellere tage dig sammen", "Helt rigtigt"], 
             ["Argh, du må hellere tage dig sammen", "Helt rigtigt", "Kom igen, det var tæt på!"], 
             ["Helt rigtigt", "Kom igen, det var tæt på!", "Argh, du må hellere tage dig sammen"]]
-        self.level_completion_heights = [[300, 390, 200], [400, 200, 536], [330, 472, 424], [488, 270, 350]]
+        
+        # Movement functions for [HYZER, FLAT, ANHYZER] for each level
+        # Each function takes (x, y, counter) and returns new (x, y, counter)
+        self.level_movement_functions = [
+            [  # Level 0
+                lambda x, y, c: (x + 0.05 * c, y + 5, c + 1),  # HYZER
+                lambda x, y, c: (x, y + 5, c),                 # FLAT
+                lambda x, y, c: (x - 0.05 * c, y + 5, c + 1),  # ANHYZER
+            ],
+            [  # Level 1
+                lambda x, y, c: (x - 0.001 * c, y + 4, c + 1),
+                lambda x, y, c: (x, y + 6, c),
+                lambda x, y, c: (x + 0.015 * c, y + 4, c + 1),
+            ],
+            [  # Level 2
+                lambda x, y, c: (x + 0.05 * c, y + 5, c + 1),
+                lambda x, y, c: (x, y + 5, c),
+                lambda x, y, c: (x, y + 5, c),
+            ],
+            [  # Level 3
+                lambda x, y, c: (x + 0.015 * c, y + 4, c + 1),
+                lambda x, y, c: (x, y + 4, c),
+                lambda x, y, c: (x + 0.01 * c, y + 3, c + 1),
+            ],
+        ]
+
+        self.level_completion_heights = [[300, 390, 200], [400, 200, 500], [250, 424, 370], [450, 270, 350]]
         self.current_level = 0
         self.current_score = 0
         
@@ -108,11 +134,11 @@ class Display:
 
                     disc_thrown = True
                     if 0 <= mouse[0] <= 66: 
-                        release_angle = ReleaseAngle.HYZER
+                        release_angle = 0
                     elif 66 < mouse[0] <= 132:
-                        release_angle = ReleaseAngle.FLAT
+                        release_angle = 1
                     elif 132 < mouse[0] <= 200:
-                        release_angle = ReleaseAngle.ANHYZER
+                        release_angle = 2
                     
 
 
@@ -121,28 +147,12 @@ class Display:
             mouse = pygame.mouse.get_pos() 
 
             if disc_thrown:
-                match release_angle:
-                    case ReleaseAngle.HYZER:
-                        disc_y += disc_speed
-                        disc_x -= curve_amount * curve_counter  # curve to the left
-                        completion_height = self.level_completion_heights[self.current_level][0]
-                        curve_counter += 1
-                        choice_result_text = self.level_choice_text[self.current_level][0]
-                        choice_score = self.level_options_points[self.current_level][0]
-
-                    case ReleaseAngle.FLAT:
-                        disc_y += disc_speed
-                        completion_height = self.level_completion_heights[self.current_level][1]
-                        choice_result_text = self.level_choice_text[self.current_level][1]
-                        choice_score = self.level_options_points[self.current_level][1]
-
-                    case ReleaseAngle.ANHYZER:
-                        disc_y += disc_speed
-                        disc_x += curve_amount * curve_counter  # curve to the right
-                        completion_height = self.level_completion_heights[self.current_level][2]
-                        curve_counter += 1
-                        choice_result_text = self.level_choice_text[self.current_level][2]
-                        choice_score = self.level_options_points[self.current_level][2]
+                move_func = self.level_movement_functions[self.current_level][release_angle]
+                disc_x, disc_y, curve_counter = move_func(disc_x, disc_y, curve_counter)
+                
+                completion_height = self.level_completion_heights[self.current_level][release_angle]
+                choice_result_text = self.level_choice_text[self.current_level][release_angle]
+                choice_score = self.level_options_points[self.current_level][release_angle]
 
                 # Check if the disc has reached the bottom
                 if disc_y - disc_radius > completion_height:
@@ -155,7 +165,6 @@ class Display:
                         disc_thrown = False
                         disc_y = 0  # Reset disc position for next level
                         disc_x = self.level_start_positions[self.current_level]
-                        curve_amount = 0.05  # adjust this for how much it curves
                         curve_counter = 0    # simulate time or distance
 
                 # Draw the disc        
