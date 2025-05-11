@@ -3,6 +3,7 @@
  <tileset firstgid="1" source="tf_jungle_tileset.tsx"/>
  <tileset firstgid="111" source="free.tsx"/>
  <tileset firstgid="241" source="transparent_basket(1).tsx"/>
+ <tileset firstgid="245" source="water_textures.tsx"/>
  <layer id="1" name="Tile Layer 1" width="14" height="34">
   <data encoding="csv">
 125,117,117,125,125,125,125,125,125,125,125,125,125,125,
