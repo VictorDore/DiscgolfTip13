@@ -36,11 +36,16 @@ class Display:
         self.displayWindow = pygame.display.set_mode((200, 584))
         self.clock = pygame.time.Clock()
 
-        self.level_maps = ["Maps/map1.tmx", "Maps/map1.tmx"] #"Maps/map2.tmx", "Maps/map3.tmx"]
-        self.level_options = [["100", "1000", "10000"], ["100", "1000", "10000"]]
-        self.level_options_points = [[0, -1, 1], [0, -1, 1]]
-        self.level_choice_text = [["Kom igen, det var tæt på!", "Helt rigtigt", "Argh, du må hellere tage dig sammen"], ["Kom igen, det var tæt på!", "Helt rigtigt", "Argh, du må hellere tage dig sammen"]]
-        self.level_completion_heights = [[300, 390, 200], [300, 390, 200]]
+        self.level_maps = ["Maps/map1.tmx", "Maps/map2.tmx", "Maps/map3.tmx", "Maps/map4.tmx"]
+        self.level_start_positions = [80, 32, 80, 80]
+        self.level_options = [["x", "y", "z"], ["100", "1000", "10000"], ["100", "1000", "10000"], ["100", "1000", "10000"]]
+        self.level_options_points = [[0, -1, 1], [0, 1, -1], [-1, 1, 0], [1, 0, -1]]
+        self.level_choice_text = [
+            ["Kom igen, det var tæt på!", "Helt rigtigt", "Argh, du må hellere tage dig sammen"], 
+            ["Kom igen, det var tæt på!", "Argh, du må hellere tage dig sammen", "Helt rigtigt"], 
+            ["Argh, du må hellere tage dig sammen", "Helt rigtigt", "Kom igen, det var tæt på!"], 
+            ["Helt rigtigt", "Kom igen, det var tæt på!", "Argh, du må hellere tage dig sammen"]]
+        self.level_completion_heights = [[300, 390, 200], [400, 200, 536], [330, 472, 424], [488, 270, 350]]
         self.current_level = 0
         self.current_score = 0
         
@@ -79,7 +84,7 @@ class Display:
         # Disc properties
         disc_thrown = False
         disc_radius = 8
-        disc_x = WIDTH // 2  # Center of the screen horizontally
+        disc_x = self.level_start_positions[0]
         disc_y = 0  # Start at the top of the screen
         disc_speed = 5  # Pixels per frame
         curve_amount = 0.05  # adjust this for how much it curves
@@ -145,22 +150,26 @@ class Display:
                     messagebox.showinfo(f'Bane {self.current_level + 1}', choice_result_text)
                     self.current_score += choice_score
                     self.nextLevel()
-                    disc_thrown = False
-                    disc_y = 0  # Reset disc position for next level
-                    disc_x = WIDTH // 2  # Center of the screen horizontally
+
+                    if self.displayRunning:
+                        disc_thrown = False
+                        disc_y = 0  # Reset disc position for next level
+                        disc_x = self.level_start_positions[self.current_level]
+                        curve_amount = 0.05  # adjust this for how much it curves
+                        curve_counter = 0    # simulate time or distance
 
                 # Draw the disc        
                 pygame.draw.circle(self.displayWindow, RED, (disc_x, disc_y), disc_radius)
 
+            # Clear button area first
+            pygame.draw.rect(self.displayWindow, BLACK, [0, 544, 66, 40])  # Hyzer button background
+            pygame.draw.rect(self.displayWindow, BLACK, [66, 544, 66, 40]) # Flat button background
+            pygame.draw.rect(self.displayWindow, BLACK, [132, 544, 66, 40]) # Anhyzer button background
 
-            pygame.draw.rect(self.displayWindow, RED,[0,584,66,40]) 
-            self.displayWindow.blit(hyzer_text, (10,554))
-
-            pygame.draw.rect(self.displayWindow, RED,[0,584,66,40]) 
-            self.displayWindow.blit(flat_text, (80,554))
-
-            pygame.draw.rect(self.displayWindow, RED,[0,584,66,40]) 
-            self.displayWindow.blit(anhyzer_text, (140,554))
+            # Draw updated text
+            self.displayWindow.blit(hyzer_text, (10, 554))
+            self.displayWindow.blit(flat_text, (76, 554))
+            self.displayWindow.blit(anhyzer_text, (142, 554))
 
             score_text = smallfont.render(f"Score: {self.current_score}", True, (255, 255, 255))
             score_rect = score_text.get_rect(topright=(WIDTH - 10, 10))
