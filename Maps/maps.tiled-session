@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "map1.tmx",
+    "activeFile": "map5.tmx",
     "automapping.whileDrawing": false,
     "expandedProjectPaths": [
         "."
@@ -19,15 +19,15 @@
             "scaleInDock": 1
         },
         "free.tsx": {
-            "scaleInDock": 1,
+            "scaleInDock": 2,
             "scaleInEditor": 1
         },
         "map1.tmx": {
             "scale": 1.7535416666666668,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 242.08150172270405,
-                "y": 402.04348342639895
+                "x": 499.5604134489723,
+                "y": 271.7357728406796
             }
         },
         "map1.tmx#basket(2)": {
@@ -43,8 +43,8 @@
             "scale": 1.5,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 137,
-                "y": 268.6666666666667
+                "x": 112.33333333333334,
+                "y": 272.3333333333333
             }
         },
         "map2.tmx#transparent_basket(1)": {
@@ -54,23 +54,52 @@
             "scale": 2,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 43.75,
-                "y": 378
+                "x": 112.25,
+                "y": 272.25
             }
         },
         "map4.tmx": {
             "scale": 1,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": -86,
-                "y": 336
+                "x": 111.5,
+                "y": 271.5
+            }
+        },
+        "map5.tmx": {
+            "scale": 1,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": -0.5,
+                "y": 258
+            }
+        },
+        "map6.tmx": {
+            "scale": 1,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 111.5,
+                "y": 271.5
+            }
+        },
+        "map7.tmx": {
+            "scale": 1,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": -0.5,
+                "y": 258
             }
         },
         "tf_jungle_tileset.tsx": {
+            "scaleInDock": 2,
+            "scaleInEditor": 1
+        },
+        "transparent_basket(1).tsx": {
             "scaleInDock": 1,
             "scaleInEditor": 1
         },
         "water_textures.tsx": {
+            "scaleInDock": 1,
             "scaleInEditor": 1
         },
         "waterfall_100.tsx": {
@@ -86,15 +115,30 @@
     "map.width": 14,
     "openFiles": [
         "free.tsx",
-        "map1.tmx"
+        "map1.tmx",
+        "tf_jungle_tileset.tsx",
+        "map2.tmx",
+        "transparent_basket(1).tsx",
+        "map3.tmx",
+        "map4.tmx",
+        "map5.tmx",
+        "map6.tmx",
+        "map7.tmx"
     ],
     "project": "maps.tiled-project",
     "recentFiles": [
-        "water_textures.tsx",
-        "waterfall_100.tsx",
         "free.tsx",
         "map1.tmx",
-        "tf_jungle_tileset.tsx"
+        "tf_jungle_tileset.tsx",
+        "map2.tmx",
+        "transparent_basket(1).tsx",
+        "map3.tmx",
+        "map4.tmx",
+        "map7.tmx",
+        "map6.tmx",
+        "map5.tmx",
+        "water_textures.tsx",
+        "waterfall_100.tsx"
     ],
     "tileset.embedInMap": false,
     "tileset.lastUsedFormat": "tsx",

@@ -61,15 +61,18 @@ class Display:
         self.clock = pygame.time.Clock()
         self.displayRunning = True
 
-        self.level_maps = ["Maps/map1.tmx", "Maps/map2.tmx", "Maps/map3.tmx", "Maps/map4.tmx"]
-        self.level_start_positions = [80, 32, 80, 80]
-        self.level_options = [["x", "y", "z"], ["100", "1000", "10000"], ["100", "1000", "10000"], ["100", "1000", "10000"]]
-        self.level_options_points = [[0, -1, 1], [0, 1, -1], [-1, 1, 0], [-1, 0, 1]]
+        self.level_maps = ["Maps/map1.tmx", "Maps/map2.tmx", "Maps/map3.tmx", "Maps/map4.tmx", "Maps/map5.tmx", "Maps/map6.tmx", "Maps/map7.tmx"]
+        self.level_start_positions = [80, 32, 80, 80, 0, 0, 0]
+        self.level_options = [["x", "y", "z"], ["100", "1000", "10000"], ["100", "1000", "10000"], ["100", "1000", "10000"], ["100", "1000", "10000"], ["100", "1000", "10000"], ["100", "1000", "10000"]]
+        self.level_options_points = [[0, -1, 1], [0, 1, -1], [-1, 1, 0], [-1, 0, 1], [-1, 0, 1], [-1, 0, 1], [-1, 0, 1]]
         self.level_choice_text = [
             ["Kom igen, det var tæt på!", "Helt rigtigt", "Argh, du må hellere tage dig sammen"],
             ["Kom igen, det var tæt på!", "Argh, du må hellere tage dig sammen", "Helt rigtigt"],
             ["Argh, du må hellere tage dig sammen", "Helt rigtigt", "Kom igen, det var tæt på!"],
             ["Helt rigtigt", "Kom igen, det var tæt på!", "Argh, du må hellere tage dig sammen"],
+            ["Helt rigtigt", "Kom igen, det var tæt på!", "Argh, du må hellere tage dig sammen"],
+            ["Helt rigtigt", "Kom igen, det var tæt på!", "Argh, du må hellere tage dig sammen"],
+            ["Helt rigtigt", "Kom igen, det var tæt på!", "Argh, du må hellere tage dig sammen"]
         ]
         self.level_movement_functions = [
             [lambda x, y, c: (x + 0.05 * c, y + 5, c + 1),
@@ -84,8 +87,17 @@ class Display:
             [lambda x, y, c: (x + 0.015 * c, y + 4, c + 1),
              lambda x, y, c: (x, y + 4, c),
              lambda x, y, c: (x + 0.01 * c, y + 3, c + 1)],
+            [lambda x, y, c: (x + 0.015 * c, y + 4, c + 1),
+             lambda x, y, c: (x, y + 4, c),
+             lambda x, y, c: (x + 0.01 * c, y + 3, c + 1)],
+             [lambda x, y, c: (x + 0.015 * c, y + 4, c + 1),
+             lambda x, y, c: (x, y + 4, c),
+             lambda x, y, c: (x + 0.01 * c, y + 3, c + 1)],
+            [lambda x, y, c: (x + 0.015 * c, y + 4, c + 1),
+             lambda x, y, c: (x, y + 4, c),
+             lambda x, y, c: (x + 0.01 * c, y + 3, c + 1)],
         ]
-        self.level_completion_heights = [[300, 390, 200], [400, 200, 500], [250, 424, 370], [450, 270, 350]]
+        self.level_completion_heights = [[300, 390, 200], [400, 200, 500], [250, 424, 370], [450, 270, 350], [450, 270, 350], [450, 270, 350], [450, 270, 350]]
 
         self.current_level = 0
         self.current_score = 0
