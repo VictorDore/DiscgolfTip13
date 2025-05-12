@@ -70,8 +70,8 @@
             "scale": 1,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": -0.5,
-                "y": 258
+                "x": 111.5,
+                "y": 271.5
             }
         },
         "map6.tmx": {
@@ -86,8 +86,8 @@
             "scale": 1,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": -0.5,
-                "y": 258
+                "x": 111.5,
+                "y": 271.5
             }
         },
         "tf_jungle_tileset.tsx": {
