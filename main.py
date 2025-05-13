@@ -62,41 +62,41 @@ class Display:
 
         self.level_maps = ["Maps/map1.tmx", "Maps/map2.tmx", "Maps/map3.tmx", "Maps/map4.tmx", "Maps/map5.tmx", "Maps/map6.tmx", "Maps/map7.tmx"]
         self.level_start_positions = [80, 32, 80, 80, 136, 136, 120]
-        self.level_options = [["x", "y", "z"], ["100", "1000", "10000"], ["100", "1000", "10000"], ["100", "1000", "10000"], ["100", "1000", "10000"], ["100", "1000", "10000"], ["100", "1000", "10000"]]
-        self.level_options_points = [[0, -1, 1], [0, 1, -1], [1, -1, 0], [-1, 0, 1], [-1, 0, 1], [0, -1, 1], [1, 0, -1]]
+        self.level_options = [["Trine", "Louise", "Mor"], ["Baby 1", "Baby 2", "Baby 3"], ["a", "b", "c"], ["4", "5-9", "10-15"], ["a", "b", "c"], ["91", "172", "263"], ["a", "b", "c"]]
+        self.level_options_points = [[0, -1, 1], [-1, 1, 0], [1, -1, 0], [1, 0, -1], [-1, 0, 1], [0, 1, -1], [1, -1, 0]]
         self.level_choice_text = [
-            ["Kom igen, det var tæt på!", "Helt rigtigt", "Argh, du må hellere tage dig sammen"],
-            ["Kom igen, det var tæt på!", "Argh, du må hellere tage dig sammen", "Helt rigtigt"],
-            ["Argh, du må hellere tage dig sammen", "Helt rigtigt", "Kom igen, det var tæt på!"],
-            ["Helt rigtigt", "Kom igen, det var tæt på!", "Argh, du må hellere tage dig sammen"],
-            ["Helt rigtigt", "Kom igen, det var tæt på!", "Argh, du må hellere tage dig sammen"],
-            ["Kom igen, det var tæt på!", "Helt rigtigt", "Argh, du må hellere tage dig sammen"],
-            ["Argh, du må hellere tage dig sammen", "Kom igen, det var tæt på!", "Helt rigtigt"]
+            ["Der stod vist et træ i vejen", "Ace, hvor vildt!!", "Der stod vist et træ i vejen"],
+            ["Den sad lige i øjet!!", "Det er meningen den skal ramme kurven, Seb!", "Det er meningen den skal ramme kurven, Seb!"],
+            ["Skulle man have brugt baghånd her?", "Det var bedre end Trine i wii-bowling!!", "Skulle man have brugt baghånd her?"],
+            ["Øv, det må være vinden", "Øv, det må være vinden", "Sådan, du ligger foran Victor!"],
+            ["Lige som planlagt og så i modvind!", "Bedre held næste gang.", "Bedre held næste gang."],
+            ["Mor forstyrrede mig!", "Mor forstyrrede mig!", "Perfekt kastet!"],
+            ["Hov, jeg ramte far igen! ", "Du er snart PRO-spiller!! ", "Hov, jeg ramte far igen!"]
         ]
         self.level_movement_functions = [
             [lambda x, y, c: (x + 0.05 * c, y + 5, c + 1),
              lambda x, y, c: (x, y + 5, c),
              lambda x, y, c: (x - 0.05 * c, y + 5, c + 1)],
-            [lambda x, y, c: (x - 0.001 * c, y + 4, c + 1),
-             lambda x, y, c: (x, y + 6, c),
-             lambda x, y, c: (x + 0.015 * c, y + 4, c + 1)],
+            [lambda x, y, c: (x + 0.015 * c, y + 4, c + 1),
+             lambda x, y, c: (x - 0.001 * c, y + 4, c + 1),
+             lambda x, y, c: (x, y + 6, c)],
             [lambda x, y, c: (x + 0.05 * c, y + 5, c + 1),
              lambda x, y, c: (x, y + 5, c),
              lambda x, y, c: (x, y + 5, c)],
-            [lambda x, y, c: (x + 0.015 * c, y + 4, c + 1),
-             lambda x, y, c: (x, y + 4, c),
-             lambda x, y, c: (x + 0.01 * c, y + 3, c + 1)],
+            [lambda x, y, c: (x, y + 4, c),
+             lambda x, y, c: (x + 0.01 * c, y + 3, c + 1),
+             lambda x, y, c: (x + 0.015 * c, y + 4, c + 1)],
             [lambda x, y, c: (x - 0.005 * c, y + 4, c + 1),
              lambda x, y, c: (x - 0.01, y + 4, c),
              lambda x, y, c: (x + 0.005 * c, y + 3, c + 1)],
-             [lambda x, y, c: (x, y + 4, c),
-             lambda x, y, c: (x - 0.01 * c, y + 4, c + 1),
-             lambda x, y, c: (x + 0.01 * c, y + 3, c + 1)],
-            [lambda x, y, c: (x * c, y + 4, c + 1),
-             lambda x, y, c: (x, y + 4, c),
-             lambda x, y, c: (x - 0.001 * c, y + 3, c + 1)],
+            [lambda x, y, c: (x, y + 4, c),
+             lambda x, y, c: (x + 0.01 * c, y + 3, c + 1),
+             lambda x, y, c: (x - 0.01 * c, y + 4, c + 1)],
+            [lambda x, y, c: (x + 0.015 * c, y + 4, c + 1),
+             lambda x, y, c: (x - 0.001 * c, y + 3, c + 1),
+             lambda x, y, c: (x, y + 4, c)]
         ]
-        self.level_completion_heights = [[300, 390, 200], [400, 200, 500], [250, 424, 370], [450, 270, 350], [450, 340, 350], [450, 450, 180], [450, 270, 350]]
+        self.level_completion_heights = [[300, 390, 200], [500, 400, 200], [250, 424, 370], [270, 350, 450], [450, 340, 350], [450, 180, 450], [450, 350, 270]]
 
         self.current_level = 0
         self.current_score = 0
